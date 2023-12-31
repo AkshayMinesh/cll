@@ -14,6 +14,11 @@ int nodeCount = 0;
 // Function to create a new student record
 struct Student* createStudent(int rollNumber, char name[], char course[], float marks) {
     struct Student* newStudent = (struct Student*)malloc(sizeof(struct Student));
+    if (nodeCount == 10) {
+        printf("Max limit reached\n");
+        return;
+    }
+
     if (newStudent == NULL) {
         printf("Memory allocation failed!\n");
         exit(EXIT_FAILURE);
@@ -98,7 +103,7 @@ void showFront(struct Student* head) {
 
 // Function to search for a student record by position
 struct Student* searchByPosition(struct Student* head, int position) {
-    if (head == NULL || position < 1) {
+    if (head == NULL || position < 1 || position > nodeCount) {
         return NULL; // List is empty or invalid position
     }
 
