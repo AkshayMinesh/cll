@@ -87,7 +87,7 @@ void showFront(struct Student* head) {
 
 // Function to search for a student record by position
 struct Student* searchByPosition(struct Student* head, int position) {
-    if (head == NULL || position < 1) {
+    if (head == NULL || position < 1 || position > nodeCount) {
         return NULL; // List is empty or invalid position
     }
 
