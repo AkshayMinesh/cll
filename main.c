@@ -34,17 +34,28 @@ void insertAtPosition(struct Student** head, int position, struct Student* newSt
         // If the list is empty, make the new student the head
         *head = newStudent;
         newStudent->next = *head;
+        nodeCount++;
     } else {
-        struct Student* current = *head;
+        if (position == 1) {
+            // Insert at the front
+            newStudent->next = *head;
+            *head = newStudent;
+            nodeCount++;
+        } else {
+            struct Student* current = *head;
+            int currentPosition = 1;
 
-        // Traverse to the desired position
-        for (int i = 1; i < position - 1; i++) {
-            current = current->next;
+            // Traverse to the end or the specified position
+            while (current->next != *head && currentPosition < position - 1) {
+                current = current->next;
+                currentPosition++;
+            }
+
+            // Insert the new student at the specified position
+            newStudent->next = current->next;
+            current->next = newStudent;
+            nodeCount++;
         }
-
-        // Insert the new student at the specified position
-        newStudent->next = current->next;
-        current->next = newStudent;
     }
 }
 
