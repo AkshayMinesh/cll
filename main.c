@@ -224,6 +224,7 @@ int main() {
                     printf("Student record updated.\n");
                 } else {
                     printf("Student record not found.\n");
+                }
                 break;
 
             case 6:
