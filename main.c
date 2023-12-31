@@ -14,10 +14,6 @@ int nodeCount = 0;
 // Function to create a new student record
 struct Student* createStudent(int rollNumber, char name[], char course[], float marks) {
     struct Student* newStudent = (struct Student*)malloc(sizeof(struct Student));
-    if (nodeCount == 10) {
-        printf("Max limit reached\n");
-        return;
-    }
 
     if (newStudent == NULL) {
         printf("Memory allocation failed!\n");
@@ -35,6 +31,10 @@ struct Student* createStudent(int rollNumber, char name[], char course[], float 
 
 // Function to insert a student record at a given position in the circular linked list
 void insertAtPosition(struct Student** head, int position, struct Student* newStudent) {
+    if (nodeCount == 10) {
+        printf("Max limit reached\n");
+        return;
+    }
     if (*head == NULL) {
         // If the list is empty, make the new student the head
         *head = newStudent;
