@@ -224,5 +224,23 @@ int main() {
                     printf("Student record not found at the specified position.\n");
                 }
                 break;
+            case 6:
+                display(head);
+                break;
+
+            case 0:
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 0);
+
+    // Free the memory before exiting
+    freeList(&head);
+
+    return 0;
+}
+
 
            
