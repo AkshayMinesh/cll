@@ -87,16 +87,23 @@ void showFront(struct Student* head) {
 
 // Function to search for a student record by position
 struct Student* searchByPosition(struct Student* head, int position) {
-    struct Student* current = head;
-
-    for (int i = 1; i < position; i++) {
-        if (current == NULL) {
-            return NULL; // Position not found
-        }
-        current = current->next;
+    if (head == NULL) {
+        return NULL; // List is empty
     }
 
-    return current;
+    struct Student* current = head;
+    int currentPos = 1;
+
+    do {
+        if (currentPos == position) {
+            return current; // Student found at the specified position
+        }
+
+        current = current->next;
+        currentPos++;
+    } while (current != head);
+
+    return NULL; // Position not found
 }
 
 // Function to update a student record
