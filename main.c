@@ -48,30 +48,28 @@ void insertAtPosition(struct Student** head, int position, struct Student* newSt
     }
 }
 
-// Function to delete a student record from the front of the circular linked list
-void deleteFront(struct Student** head) {
+// Function to delete a student record from the last position of the circular linked list
+void deleteLast(struct Student** head) {
     if (*head == NULL) {
         printf("List is empty. Cannot delete.\n");
     } else {
-        struct Student* temp = *head;
+        struct Student* current = *head;
+        struct Student* prev = NULL;
 
-        if (temp->next == *head) {
-            // Only one element in the list
-            *head = NULL;
-        } else {
-            // More than one element in the list
-            struct Student* last = *head;
-
-            // Traverse to the last node
-            while (last->next != *head) {
-                last = last->next;
-            }
-
-            *head = temp->next;
-            last->next = *head;
+        // Traverse to the last node
+        while (current->next != *head) {
+            prev = current;
+            current = current->next;
         }
 
-        free(temp);
+        // If only one element in the list
+        if (prev == NULL) {
+            free(current);
+            *head = NULL;
+        } else {
+            prev->next = *head;
+            free(current);
+        }
     }
 }
 
@@ -87,18 +85,18 @@ void showFront(struct Student* head) {
     }
 }
 
-// Function to search for a student record by roll number
-struct Student* searchByKey(struct Student* head, int rollNumber) {
+// Function to search for a student record by position
+struct Student* searchByPosition(struct Student* head, int position) {
     struct Student* current = head;
 
-    do {
-        if (current->rollNumber == rollNumber) {
-            return current;
+    for (int i = 1; i < position; i++) {
+        if (current == NULL) {
+            return NULL; // Position not found
         }
         current = current->next;
-    } while (current != head);
+    }
 
-    return NULL; // Student not found
+    return current;
 }
 
 // Function to update a student record
@@ -155,9 +153,9 @@ int main() {
     do {
         printf("\n***** Student Record Management System *****\n");
         printf("1. Insert Student record at position\n");
-        printf("2. Delete Student record from front\n");
+        printf("2. Delete Student record from last\n");
         printf("3. Show Student record at front\n");
-        printf("4. Search Student record by roll number\n");
+        printf("4. Search Student record by position\n");
         printf("5. Update Student record\n");
         printf("6. Display all Student records\n");
         printf("0. Exit\n");
@@ -181,8 +179,8 @@ int main() {
                 break;
 
             case 2:
-                deleteFront(&head);
-                printf("Student record deleted from front.\n");
+                deleteLast(&head);
+                printf("Student record deleted from last.\n");
                 break;
 
             case 3:
@@ -190,10 +188,10 @@ int main() {
                 break;
 
             case 4:
-                printf("Enter roll number to search: ");
-                scanf("%d", &rollNumber);
+                printf("Enter position to search: ");
+                scanf("%d", &position);
 
-                foundStudent = searchByKey(head, rollNumber);
+                foundStudent = searchByPosition(head, position);
 
                 if (foundStudent != NULL) {
                     printf("Student record found:\n");
@@ -202,15 +200,15 @@ int main() {
                     printf("Course: %s\n", foundStudent->course);
                     printf("Marks: %.2f\n", foundStudent->marks);
                 } else {
-                    printf("Student record not found.\n");
+                    printf("Student record not found at the specified position.\n");
                 }
                 break;
 
             case 5:
-                printf("Enter roll number to update: ");
-                scanf("%d", &rollNumber);
+                printf("Enter position to update: ");
+                scanf("%d", &position);
 
-                foundStudent = searchByKey(head, rollNumber);
+                foundStudent = searchByPosition(head, position);
 
                 if (foundStudent != NULL) {
                     printf("Enter new name: ");
@@ -223,25 +221,8 @@ int main() {
                     updateRecord(foundStudent, name, course, marks);
                     printf("Student record updated.\n");
                 } else {
-                    printf("Student record not found.\n");
+                    printf("Student record not found at the specified position.\n");
                 }
                 break;
 
-            case 6:
-                display(head);
-                break;
-
-            case 0:
-                break;
-
-            default:
-                printf("Invalid choice. Please try again.\n");
-        }
-    } while (choice != 0);
-
-    // Free the memory before exiting
-    freeList(&head);
-
-    return 0;
-}
-
+           
